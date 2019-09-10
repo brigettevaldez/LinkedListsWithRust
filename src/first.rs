@@ -21,13 +21,40 @@ impl List {
 
     //pushing a new value to the list
     pub fn push (&mut self, elem: i32) {
-        let newNode = Box::new(Node {
+        let new_node = Box::new(Node {
             elem: elem,
             next: mem::replace(&mut self.head, Link::Empty),
         });
-        
-        self.head = Link::More(newNode);
+
+        self.head = Link::More(new_node);
     }
+
+    /*pub fn pop(&mut self) -> Option<i32> {
+        let result;
+        match mem::replace(&mut self.head, Link::Empty) {
+            Link::Empty => {
+                result = None;
+            }
+            Link::More(node) => {
+                result = Some(node.elem);
+                self.head = node.next;
+            }
+        };
+        result
+    }*/
+    /*
+     *both the above version of pop and this version are correct
+     *this is simply a shorter way of writing it 
+     */
+    pub fn pop(&mut self) -> Option<i32> {
+    match mem::replace(&mut self.head, Link::Empty) {
+        Link::Empty => None,
+        Link::More(node) => {
+            self.head = node.next;
+            Some(node.elem)
+        }
+    }
+}
 
 
 }
